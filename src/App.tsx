@@ -1,5 +1,6 @@
 import Hero from './components/Hero';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
+import { trackPageView } from './utils/tracking';
 
 const FutureSuccess = lazy(() => import('./components/FutureSuccess'));
 const BenefitsSection = lazy(() => import('./components/BenefitsSection'));
@@ -26,6 +27,10 @@ function LoadingFallback() {
 }
 
 function App() {
+  useEffect(() => {
+    trackPageView();
+  }, []);
+
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
       <Hero />
