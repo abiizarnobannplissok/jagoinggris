@@ -62,6 +62,11 @@ export function trackInitiateCheckout() {
 export function trackPurchase() {
   const eventId = generateEventId();
 
+  console.log('[Pixel] trackPurchase called', { 
+    hasFbq: typeof window.fbq,
+    fbqType: window.fbq ? typeof window.fbq : 'undefined'
+  });
+
   // Just fire the event - the queue will handle it
   window.fbq('track', 'Purchase', {
     currency: 'IDR',
@@ -69,6 +74,8 @@ export function trackPurchase() {
     content_name: '3 Hari Jago Inggris',
     content_type: 'product',
   }, { eventID: eventId });
+
+  console.log('[Pixel] Purchase event fired');
 
   sendCapiEvent({
     event_name: 'Purchase',

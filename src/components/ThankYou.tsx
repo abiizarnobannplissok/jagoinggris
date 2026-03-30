@@ -6,6 +6,7 @@ const ThankYou = memo(function ThankYou() {
   const lottieLoaded = useRef(false);
 
   useEffect(() => {
+    console.log('[ThankYou] Component mounted, calling trackPurchase');
     trackPurchase();
   }, []);
 
