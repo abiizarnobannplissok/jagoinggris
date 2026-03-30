@@ -1,7 +1,8 @@
-import Hero from './components/Hero';
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState, memo } from 'react';
 import { trackPageView } from './utils/tracking';
 
+const Hero = lazy(() => import('./components/Hero'));
+const ThankYou = lazy(() => import('./components/ThankYou'));
 const FutureSuccess = lazy(() => import('./components/FutureSuccess'));
 const BenefitsSection = lazy(() => import('./components/BenefitsSection'));
 const SocialProof = lazy(() => import('./components/SocialProof'));
@@ -11,10 +12,10 @@ const StoryAfterFAQ = lazy(() => import('./components/StoryAfterFAQ'));
 const Guarantee = lazy(() => import('./components/Guarantee'));
 const FinalCTA = lazy(() => import('./components/FinalCTA'));
 
-function LoadingFallback() {
+const LoadingFallback = memo(function LoadingFallback() {
   return (
     <div style={{ 
-      minHeight: '200px', 
+      minHeight: '100px', 
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center',
@@ -24,16 +25,46 @@ function LoadingFallback() {
       Loading...
     </div>
   );
-}
+});
 
-function App() {
+const App = memo(function App() {
+  const [currentPage, setCurrentPage] = useState<'main' | 'thankyou'>('main');
+
   useEffect(() => {
     trackPageView();
+    
+    const checkPath = () => {
+      const path = window.location.pathname;
+      if (path === '/terima-kasih' || path === '/thankyou') {
+        setCurrentPage('thankyou');
+      } else {
+        setCurrentPage('main');
+      }
+    };
+
+    checkPath();
+    window.addEventListener('popstate', checkPath);
+    
+    return () => {
+      window.removeEventListener('popstate', checkPath);
+    };
   }, []);
+
+  if (currentPage === 'thankyou') {
+    return (
+      <div className="min-h-screen overflow-x-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <Suspense fallback={<LoadingFallback />}>
+          <ThankYou />
+        </Suspense>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen overflow-x-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <Hero />
+      <Suspense fallback={<LoadingFallback />}>
+        <Hero />
+      </Suspense>
       <Suspense fallback={<LoadingFallback />}>
         <FutureSuccess />
         <BenefitsSection />
@@ -46,6 +77,6 @@ function App() {
       </Suspense>
     </div>
   );
-}
+});
 
 export default App;

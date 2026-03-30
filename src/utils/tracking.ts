@@ -26,12 +26,27 @@ function sendCapiEvent(payload: Record<string, unknown>) {
   }
 }
 
+function waitForFbq(callback: () => void, maxAttempts = 20) {
+  let attempts = 0;
+  const check = () => {
+    attempts++;
+    if (typeof window.fbq === 'function') {
+      callback();
+    } else if (attempts < maxAttempts) {
+      setTimeout(check, 100);
+    } else {
+      console.warn('Facebook Pixel not loaded after maximum attempts');
+    }
+  };
+  check();
+}
+
 export function trackPageView() {
   const eventId = generateEventId();
 
-  if (typeof window.fbq === 'function') {
+  waitForFbq(() => {
     window.fbq('track', 'PageView', {}, { eventID: eventId });
-  }
+  });
 
   sendCapiEvent({
     event_name: 'PageView',
@@ -42,9 +57,9 @@ export function trackPageView() {
 export function trackInitiateCheckout() {
   const eventId = generateEventId();
 
-  if (typeof window.fbq === 'function') {
+  waitForFbq(() => {
     window.fbq('track', 'InitiateCheckout', { currency: 'IDR', value: 99000 }, { eventID: eventId });
-  }
+  });
 
   sendCapiEvent({
     event_name: 'InitiateCheckout',
@@ -52,6 +67,30 @@ export function trackInitiateCheckout() {
     custom_data: {
       currency: 'IDR',
       value: 99000,
+    },
+  });
+}
+
+export function trackPurchase() {
+  const eventId = generateEventId();
+
+  waitForFbq(() => {
+    window.fbq('track', 'Purchase', {
+      currency: 'IDR',
+      value: 99000,
+      content_name: '3 Hari Jago Inggris',
+      content_type: 'product',
+    }, { eventID: eventId });
+  });
+
+  sendCapiEvent({
+    event_name: 'Purchase',
+    event_id: eventId,
+    custom_data: {
+      currency: 'IDR',
+      value: 99000,
+      content_name: '3 Hari Jago Inggris',
+      content_type: 'product',
     },
   });
 }

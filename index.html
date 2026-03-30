@@ -7,18 +7,20 @@
     
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://connect.facebook.net" />
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://zobook.form.id" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
     
     <link rel="preload" href="/imghero-optimized.webp" as="image" fetchpriority="high" />
+    <link rel="preload" href="/animation.json" as="fetch" crossorigin />
     
-    <!-- Google Fonts - Preload critical weights only, async load full set -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet" /></noscript>
     
     <style>
       html { scroll-behavior: smooth; }
-      body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+      body { font-family: 'Inter', system-ui, -apple-system, sans-serif; margin: 0; }
       @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: local('Inter Regular'); }
       @font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: local('Inter Bold'); }
       @font-face { font-family: 'Inter'; font-style: normal; font-weight: 900; font-display: swap; src: local('Inter Black'); }
@@ -29,7 +31,7 @@
     <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      n.callMethod.apply(arguments):n.queue.push(arguments)};
       if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
       n.queue=[];t=b.createElement(e);t.async=!0;
       t.src=v;s=b.getElementsByTagName(e)[0];
@@ -38,7 +40,6 @@
       fbq('init', '4478788099110803');
     </script>
     
-    <!-- Embedded form styles -->
     <style type="text/css">
       #app{background-color:transparent !important;text-align:left} 
       .embed-sealHide, .embed-leftHide, .bottom-bar-text{display:none !important;} 
