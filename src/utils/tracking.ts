@@ -81,13 +81,13 @@ export function trackPurchase() {
       if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
         console.log('[Pixel] fbq is ready, firing Purchase event');
         
-        // First fire standard Track event
+        // Fire standard Track event with eventID for CAPI deduplication
         window.fbq('track', 'Purchase', {
           currency: 'IDR',
           value: 99000,
           content_name: '3 Hari Jago Inggris',
           content_type: 'product',
-        });
+        }, { eventID: eventId });
         
         console.log('[Pixel] Purchase event fired successfully');
       } else {
