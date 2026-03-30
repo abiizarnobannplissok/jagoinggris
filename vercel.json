@@ -1,4 +1,9 @@
 {
+  "rewrites": [
+    { "source": "/terima-kasih", "destination": "/index.html" },
+    { "source": "/thankyou", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
