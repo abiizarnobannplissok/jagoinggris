@@ -31,14 +31,13 @@ const App = memo(function App() {
   const [currentPage, setCurrentPage] = useState<'main' | 'thankyou'>('main');
 
   useEffect(() => {
-    trackPageView();
-    
     const checkPath = () => {
       const path = window.location.pathname;
       if (path === '/terima-kasih' || path === '/thankyou') {
         setCurrentPage('thankyou');
       } else {
         setCurrentPage('main');
+        trackPageView();
       }
     };
 

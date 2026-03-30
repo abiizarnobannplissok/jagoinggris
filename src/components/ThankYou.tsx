@@ -6,10 +6,7 @@ const ThankYou = memo(function ThankYou() {
   const lottieLoaded = useRef(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      trackPurchase();
-    }, 500);
-    return () => clearTimeout(timer);
+    trackPurchase();
   }, []);
 
   useEffect(() => {

@@ -74,13 +74,17 @@ export function trackInitiateCheckout() {
 export function trackPurchase() {
   const eventId = generateEventId();
 
+  console.log('[Pixel] Tracking Purchase event:', { eventId, value: 99000 });
+
   waitForFbq(() => {
+    console.log('[Pixel] fbq is ready, firing Purchase event');
     window.fbq('track', 'Purchase', {
       currency: 'IDR',
       value: 99000,
       content_name: '3 Hari Jago Inggris',
       content_type: 'product',
     }, { eventID: eventId });
+    console.log('[Pixel] Purchase event fired successfully');
   });
 
   sendCapiEvent({
