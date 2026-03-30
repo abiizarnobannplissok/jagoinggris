@@ -76,16 +76,30 @@ export function trackPurchase() {
 
   console.log('[Pixel] Tracking Purchase event:', { eventId, value: 99000 });
 
-  waitForFbq(() => {
-    console.log('[Pixel] fbq is ready, firing Purchase event');
-    window.fbq('track', 'Purchase', {
-      currency: 'IDR',
-      value: 99000,
-      content_name: '3 Hari Jago Inggris',
-      content_type: 'product',
-    }, { eventID: eventId });
-    console.log('[Pixel] Purchase event fired successfully');
-  });
+  const firePurchaseEvent = () => {
+    try {
+      if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+        console.log('[Pixel] fbq is ready, firing Purchase event');
+        
+        // First fire standard Track event
+        window.fbq('track', 'Purchase', {
+          currency: 'IDR',
+          value: 99000,
+          content_name: '3 Hari Jago Inggris',
+          content_type: 'product',
+        });
+        
+        console.log('[Pixel] Purchase event fired successfully');
+      } else {
+        console.warn('[Pixel] fbq not available, retrying...');
+        setTimeout(firePurchaseEvent, 200);
+      }
+    } catch (error) {
+      console.error('[Pixel] Error firing Purchase event:', error);
+    }
+  };
+
+  setTimeout(firePurchaseEvent, 1000);
 
   sendCapiEvent({
     event_name: 'Purchase',
