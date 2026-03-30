@@ -33,29 +33,10 @@ function sendCapiEvent(payload: Record<string, unknown>) {
   }
 }
 
-function waitForFbq(callback: () => void, maxAttempts = 50) {
-  let attempts = 0;
-  const check = () => {
-    attempts++;
-    // fbq is ready when fbevents.js is fully loaded
-    // The real fbq function will be different from the queue
-    if (typeof window.fbq === 'function' && window.fbq.version) {
-      callback();
-    } else if (attempts < maxAttempts) {
-      setTimeout(check, 100);
-    } else {
-      console.warn('Facebook Pixel not loaded after maximum attempts');
-    }
-  };
-  check();
-}
-
 export function trackPageView() {
   const eventId = generateEventId();
 
-  waitForFbq(() => {
-    window.fbq('track', 'PageView', {}, { eventID: eventId });
-  });
+  window.fbq('track', 'PageView', {}, { eventID: eventId });
 
   sendCapiEvent({
     event_name: 'PageView',
@@ -66,9 +47,7 @@ export function trackPageView() {
 export function trackInitiateCheckout() {
   const eventId = generateEventId();
 
-  waitForFbq(() => {
-    window.fbq('track', 'InitiateCheckout', { currency: 'IDR', value: 99000 }, { eventID: eventId });
-  });
+  window.fbq('track', 'InitiateCheckout', { currency: 'IDR', value: 99000 }, { eventID: eventId });
 
   sendCapiEvent({
     event_name: 'InitiateCheckout',
@@ -83,14 +62,13 @@ export function trackInitiateCheckout() {
 export function trackPurchase() {
   const eventId = generateEventId();
 
-  waitForFbq(() => {
-    window.fbq('track', 'Purchase', {
-      currency: 'IDR',
-      value: 99000,
-      content_name: '3 Hari Jago Inggris',
-      content_type: 'product',
-    }, { eventID: eventId });
-  });
+  // Just fire the event - the queue will handle it
+  window.fbq('track', 'Purchase', {
+    currency: 'IDR',
+    value: 99000,
+    content_name: '3 Hari Jago Inggris',
+    content_type: 'product',
+  }, { eventID: eventId });
 
   sendCapiEvent({
     event_name: 'Purchase',
