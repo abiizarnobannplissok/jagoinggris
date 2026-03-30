@@ -1,13 +1,8 @@
 import { useEffect, useRef, memo } from 'react';
-import { trackPurchase } from '../utils/tracking';
 
 const ThankYou = memo(function ThankYou() {
   const lottieContainerRef = useRef<HTMLDivElement>(null);
   const lottieLoaded = useRef(false);
-
-  useEffect(() => {
-    trackPurchase();
-  }, []);
 
   useEffect(() => {
     if (lottieLoaded.current || !lottieContainerRef.current) return;

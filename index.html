@@ -38,7 +38,18 @@
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '4478788099110803');
-      fbq('track', 'PageView');
+      
+      var path = window.location.pathname;
+      if (path.includes('thank') || path.includes('terima')) {
+        fbq('track', 'Purchase', {
+          currency: 'IDR',
+          value: 99000,
+          content_name: '3 Hari Jago Inggris',
+          content_type: 'product'
+        });
+      } else {
+        fbq('track', 'PageView');
+      }
     </script>
     
     <style type="text/css">
