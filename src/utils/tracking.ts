@@ -59,8 +59,6 @@ export function trackInitiateCheckout() {
 export function trackPurchase() {
   const eventId = generateEventId();
 
-  console.log('[Pixel] trackPurchase called');
-
   window.fbq('track', 'Purchase', {
     currency: 'IDR',
     value: 99000,
@@ -68,8 +66,6 @@ export function trackPurchase() {
     content_type: 'product',
     eventId: eventId
   });
-
-  console.log('[Pixel] Purchase event fired successfully');
 
   sendCapiEvent({
     event_name: 'Purchase',
