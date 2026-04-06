@@ -5,8 +5,7 @@ import { useEffect, useState, useRef, useMemo } from 'react';
 export default function PricingSection() {
     const [time, setTime] = useState(2 * 3600 + 34 * 60 + 53);
     const formRef = useRef<HTMLDivElement>(null);
-    const sectionRef = useRef<HTMLElement>(null);
-    const [shouldLoadForm, setShouldLoadForm] = useState(false);
+    const formLoaded = useRef(false);
 
     useEffect(() => {
         if (time <= 0) return;
@@ -15,25 +14,8 @@ export default function PricingSection() {
     }, []);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setShouldLoadForm(true);
-                    observer.disconnect();
-                }
-            },
-            { rootMargin: '300px' }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
-    useEffect(() => {
-        if (!shouldLoadForm || !formRef.current || formRef.current.childNodes.length > 0) return;
+        if (formLoaded.current || !formRef.current) return;
+        formLoaded.current = true;
 
         const container = formRef.current;
         const widget = document.createElement('mengantar-form-widget');
@@ -60,7 +42,7 @@ export default function PricingSection() {
             s.async = true;
             document.body.appendChild(s);
         }
-    }, [shouldLoadForm]);
+    }, []);
 
     const timeDisplay = useMemo(() => ({
         hours: String(Math.floor(time / 3600)).padStart(2, '0'),
@@ -70,7 +52,6 @@ export default function PricingSection() {
 
     return (
         <section
-            ref={sectionRef}
             style={{
                 background: '#ffffff',
                 padding: '24px 20px',
