@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { fontInter } from './fonts';
+import Script from 'next/script';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -15,29 +17,24 @@ export default function RootLayout({
     <html lang="id">
       <head>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://unpkg.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://zobook.form.id" />
-        <link rel="dns-prefetch" href="https://unpkg.com" />
         
-        <link 
-          rel="preload" 
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" 
-          as="style" 
-        />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" 
-          rel="stylesheet" 
-        />
-        
-        <link 
-          href="https://zobook.form.id/css/app.css" 
-          rel="stylesheet" 
-          media="print" 
-        />
-
-        <script
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            #app{background-color:transparent !important;text-align:left} 
+            .embed-sealHide, .embed-leftHide, .bottom-bar-text{display:none !important;} 
+            .embed-rightHide{flex: 0 0 100% !important; width: 100% !important; max-width:100% !important; margin:auto;} 
+            .embed-bgHide{box-shadow:none !important; background:transparent; border:none !important; padding: 1px 20px !important; margin:0;} 
+            .embed-topSpace{margin:auto !important;} 
+            .embed-wrapper{height: auto !important; overflow:initial !important;} 
+            .embed-notopMargin{margin:0 !important; .embed-gap{gap: 10px !important;}}
+          `,
+        }} />
+      </head>
+      <body className={fontInter.className}>
+        {children}
+        <Script
           dangerouslySetInnerHTML={{
             __html: `
               !function(f,b,e,v,n,t,s)
@@ -52,22 +49,8 @@ export default function RootLayout({
               fbq('track', 'PageView');
             `,
           }}
+          strategy="afterInteractive"
         />
-
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            #app{background-color:transparent !important;text-align:left} 
-            .embed-sealHide, .embed-leftHide, .bottom-bar-text{display:none !important;} 
-            .embed-rightHide{flex: 0 0 100% !important; width: 100% !important; max-width:100% !important; margin:auto;} 
-            .embed-bgHide{box-shadow:none !important; background:transparent; border:none !important; padding: 1px 20px !important; margin:0;} 
-            .embed-topSpace{margin:auto !important;} 
-            .embed-wrapper{height: auto !important; overflow:initial !important;} 
-            .embed-notopMargin{margin:0 !important; .embed-gap{gap: 10px !important;}}
-          `,
-        }} />
-      </head>
-      <body>
-        {children}
       </body>
     </html>
   );
