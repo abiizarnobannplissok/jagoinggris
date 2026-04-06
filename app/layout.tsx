@@ -18,7 +18,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://zobook.form.id" />
+        <link rel="dns-prefetch" href="https://jadilebihbaik.form.id" />
+        
+        <link href="https://jadilebihbaik.form.id/css/app.css" rel="stylesheet" />
         
         <style dangerouslySetInnerHTML={{
           __html: `

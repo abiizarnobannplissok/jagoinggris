@@ -38,25 +38,25 @@ export default function PricingSection() {
         const container = formRef.current;
         const widget = document.createElement('mengantar-form-widget');
         widget.setAttribute('id', 'mengantar-form-widget');
-        widget.setAttribute('url', '3-hari-jago-inggris');
-        widget.setAttribute('domain', 'zobook.form.id');
+        widget.setAttribute('url', '3-hari-jago-inggris-');
+        widget.setAttribute('domain', 'jadilebihbaik.form.id');
         widget.setAttribute('embed', 'true');
         widget.setAttribute('settings', JSON.stringify({
             type: 'page',
             popupButtonText: 'Klik untuk pemesanan',
             popupText: 'Form Pemesanan',
             popupButtonColor: '#2e47ba',
-            redirectTo: 'https://zobook.form.id',
-            isFbPixel: 'false',
+            redirectTo: 'https://jadilebihbaik.form.id',
+            isFbPixel: 'true',
             isHideBackground: 'true',
             isNoMargin: 'false',
             isGtm: 'true'
         }));
         container.appendChild(widget);
 
-        if (!document.querySelector('script[src="https://zobook.form.id/app.js"]')) {
+        if (!document.querySelector('script[src="https://jadilebihbaik.form.id/app.js"]')) {
             const s = document.createElement('script');
-            s.src = 'https://zobook.form.id/app.js';
+            s.src = 'https://jadilebihbaik.form.id/app.js';
             s.async = true;
             document.body.appendChild(s);
         }
