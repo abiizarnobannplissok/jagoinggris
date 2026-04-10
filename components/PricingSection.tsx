@@ -13,7 +13,7 @@ export default function PricingSection() {
         return () => clearInterval(interval);
     }, []);
 
-    // Load form on first scroll - user engagement signal
+    // Load form immediately after page is interactive (idle)
     useEffect(() => {
         const loadForm = () => {
             if (formLoaded.current || !formRef.current) return;
@@ -53,21 +53,13 @@ export default function PricingSection() {
             }
         };
 
-        // Start loading form on first scroll (user engagement signal)
-        const handleScroll = () => {
-            loadForm();
-            window.removeEventListener('scroll', handleScroll);
-        };
-
-        // Also load after 2 seconds if user hasn't scrolled (fallback)
-        const fallbackTimer = setTimeout(loadForm, 2000);
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            clearTimeout(fallbackTimer);
-        };
+        // Use requestIdleCallback for better performance (load when browser is idle)
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+            (window as any).requestIdleCallback(loadForm, { timeout: 2000 });
+        } else {
+            // Fallback: load shortly after component mounts
+            setTimeout(loadForm, 500);
+        }
     }, []);
 
     const timeDisplay = useMemo(() => ({
